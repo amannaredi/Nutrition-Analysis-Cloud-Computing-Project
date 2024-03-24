@@ -1,0 +1,44 @@
+<!-- header.html -->
+<header>
+    <nav>
+        <div class="nav-left">
+            {% if 'username' in session %}
+                <a href="{{ url_for('views.home') }}">Home</a>
+            {% endif %}
+        </div>
+        <div class="nav-left">
+            {% if 'username' in session %}
+                <a href="{{ url_for('views.logout') }}">Logout</a>
+            {% endif %}
+        </div>
+        <div class="nav-right">
+            {% if 'username' in session %}
+            {% set update_url = url_for('views.update', user=session['username']) %}
+            <a href="{{ update_url }}">Update Password</a>
+            {% endif %}
+        </div>
+        <div class="nav-right">
+            {% if 'username' in session %}
+            {% set delete_url = url_for('views.delete', user=session['username']) %}
+            <a href="" onclick="delete_record('{{delete_url}}')">Delete Account</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+
+</header>
+
+<script>
+    function delete_record(url) {
+
+        fetch(url,{
+            method:"DELETE"
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log("success");
+    })
+    .catch(error => console.error(error));
+    window.location.href="/signup";
+    }
+</script>
